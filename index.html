@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GitHub Commit Style Marquee</title>
+<style>
+  body {
+    background-color: #0d1117;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(100, 12px); /* width will expand */
+    grid-template-rows: repeat(7, 12px);
+    gap: 3px;
+    position: relative;
+  }
+
+  .cell {
+    width: 12px;
+    height: 12px;
+    background-color: #161b22;
+    border-radius: 2px;
+  }
+
+  .on {
+    background-color: #39d353; /* bright green */
+  }
+
+  .trail-1 {
+    background-color: #2ea043; /* medium green */
+  }
+
+  .trail-2 {
+    background-color: #196c2e; /* dark green */
+  }
+</style>
+</head>
+<body>
+<div id="panel" class="grid"></div>
+
+<script>
+// Character bitmaps, 7 rows height
+const font = {
+  'П': [
+    "10001",
+    "10001",
+    "10001",
+    "10001",
+    "10001",
+    "10001",
+    "11111",
+  ],
+  'и': [
+    "10001",
+    "10001",
+    "10011",
+    "10101",
+    "11001",
+    "10001",
+    "10001",
+  ],
+  'з': [
+    "11110",
+    "00001",
+    "00001",
+    "01110",
+    "00001",
+    "00001",
+    "11110",
+  ],
+  'д': [
+    "00110",
+    "01001",
+    "01001",
+    "01001",
+    "01001",
+    "11111",
+    "10001",
+  ],
+  'а': [
+    "00000",
+    "01110",
+    "00001",
+    "01111",
+    "10001",
+    "10001",
+    "01111",
+  ],
+};
+
+const panel = document.getElementById('panel');
+const rows = 7;
+const cols = 100;
+const delay = 100; // ms
+const trailLength = 2;
+
+// Create grid cells
+const cells = [];
+for (let i = 0; i < rows * cols; i++) {
+  const cell = document.createElement('div');
+  cell.className = 'cell';
+  panel.appendChild(cell);
+  cells.push(cell);
+}
+
+const text = 'Пизда';
+
+// Build full bitmap line by line
+let bitmap = [];
+for (let row = 0; row < rows; row++) {
+  let line = '';
+  for (const char of text) {
+    const charMap = font[char];
+    if (charMap) {
+      line += charMap[row] + '0'; // add space between letters
+    }
+  }
+  bitmap.push(line);
+}
+
+// Pad with empty columns to allow scrolling
+const maxLineLength = Math.max(...bitmap.map(line => line.length));
+for (let i = 0; i < rows; i++) {
+  bitmap[i] = bitmap[i].padEnd(maxLineLength + cols, '0');
+}
+
+let offset = 0;
+
+function draw() {
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const cellIndex = row * cols + col;
+      cells[cellIndex].className = 'cell'; // reset
+      for (let t = 0; t <= trailLength; t++) {
+        const currentPos = col + offset - t;
+        if (bitmap[row][currentPos] === '1') {
+          if (t === 0) cells[cellIndex].classList.add('on');
+          else cells[cellIndex].classList.add('trail-' + t);
+          break;
+        }
+      }
+    }
+  }
+  offset++;
+  if (offset > bitmap[0].length) {
+    offset = 0;
+  }
+}
+
+setInterval(draw, delay);
+</script>
+</body>
+</html>
