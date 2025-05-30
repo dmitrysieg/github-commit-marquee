@@ -47,13 +47,13 @@
 <script>
 const font = {
   'П': [
-    "10001",
-    "10001",
-    "10001",
-    "10001",
-    "10001",
-    "10001",
     "11111",
+    "10001",
+    "10001",
+    "10001",
+    "10001",
+    "10001",
+    "10001",
   ],
   'и': [
     "10001",
@@ -93,12 +93,14 @@ const font = {
   ],
 };
 
+// Options
 const panel = document.getElementById('panel');
 const rows = 7;
-const cols = 100;
+const cols = 52;
 const delay = 100;
 const trailLength = 2;
 
+// Create cells "canvas"
 const cells = [];
 for (let i = 0; i < rows * cols; i++) {
   const cell = document.createElement('div');
@@ -129,12 +131,22 @@ for (let i = 0; i < rows; i++) {
 let offset = 0;
 
 function draw() {
+
+  // Iterate through rows
   for (let row = 0; row < rows; row++) {
+
+    // Iterate through the line of columns
     for (let col = 0; col < cols; col++) {
+
+      // Reset current cell
       const cellIndex = row * cols + col;
       cells[cellIndex].className = 'cell';
+
+      // Drawing: 0 - drawing greentext, 1..trailLength - drawing trail.
       for (let t = 0; t <= trailLength; t++) {
-        let currentPos = (offset - col + t + bitmap[0].length) % bitmap[0].length;
+
+        // Drawn position in line in the bitmap
+        let currentPos = (-offset + col - t + bitmap[0].length) % bitmap[0].length;
         if (bitmap[row][currentPos] === '1') {
           if (t === 0) cells[cellIndex].classList.add('on');
           else cells[cellIndex].classList.add('trail-' + t);
