@@ -15,7 +15,7 @@
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(100, 12px);
+    grid-template-columns: repeat(52, 12px);
     grid-template-rows: repeat(7, 12px);
     gap: 3px;
     position: relative;
@@ -56,29 +56,29 @@ const font = {
     "10001",
   ],
   'и': [
-    "10001",
+    "00000",
+    "00000",
     "10001",
     "10011",
     "10101",
     "11001",
     "10001",
-    "10001",
   ],
   'з': [
-    "11110",
-    "00001",
-    "00001",
+    "00000",
+    "00000",
     "01110",
-    "00001",
-    "00001",
-    "11110",
+    "00010",
+    "00101",
+    "10001",
+    "01110",
   ],
   'д': [
+    "00000",
+    "00000",
     "00110",
-    "01001",
-    "01001",
-    "01001",
-    "01001",
+    "01010",
+    "01010",
     "11111",
     "10001",
   ],
@@ -97,7 +97,7 @@ const font = {
 const panel = document.getElementById('panel');
 const rows = 7;
 const cols = 52;
-const delay = 100;
+const delay = 500;
 const trailLength = 2;
 
 // Create cells "canvas"
