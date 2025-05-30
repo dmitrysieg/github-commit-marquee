@@ -15,7 +15,7 @@
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(100, 12px); /* width will expand */
+    grid-template-columns: repeat(100, 12px);
     grid-template-rows: repeat(7, 12px);
     gap: 3px;
     position: relative;
@@ -45,7 +45,6 @@
 <div id="panel" class="grid"></div>
 
 <script>
-// Character bitmaps, 7 rows height
 const font = {
   'П': [
     "10001",
@@ -97,10 +96,9 @@ const font = {
 const panel = document.getElementById('panel');
 const rows = 7;
 const cols = 100;
-const delay = 100; // ms
+const delay = 100;
 const trailLength = 2;
 
-// Create grid cells
 const cells = [];
 for (let i = 0; i < rows * cols; i++) {
   const cell = document.createElement('div');
@@ -111,20 +109,18 @@ for (let i = 0; i < rows * cols; i++) {
 
 const text = 'Пизда';
 
-// Build full bitmap line by line
 let bitmap = [];
 for (let row = 0; row < rows; row++) {
   let line = '';
   for (const char of text) {
     const charMap = font[char];
     if (charMap) {
-      line += charMap[row] + '0'; // add space between letters
+      line += charMap[row] + '0';
     }
   }
   bitmap.push(line);
 }
 
-// Pad with empty columns to allow scrolling
 const maxLineLength = Math.max(...bitmap.map(line => line.length));
 for (let i = 0; i < rows; i++) {
   bitmap[i] = bitmap[i].padEnd(maxLineLength + cols, '0');
@@ -136,9 +132,9 @@ function draw() {
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
       const cellIndex = row * cols + col;
-      cells[cellIndex].className = 'cell'; // reset
+      cells[cellIndex].className = 'cell';
       for (let t = 0; t <= trailLength; t++) {
-        const currentPos = col + offset - t;
+        let currentPos = (offset - col + t + bitmap[0].length) % bitmap[0].length;
         if (bitmap[row][currentPos] === '1') {
           if (t === 0) cells[cellIndex].classList.add('on');
           else cells[cellIndex].classList.add('trail-' + t);
@@ -147,10 +143,7 @@ function draw() {
       }
     }
   }
-  offset++;
-  if (offset > bitmap[0].length) {
-    offset = 0;
-  }
+  offset = (offset + 1) % bitmap[0].length;
 }
 
 setInterval(draw, delay);
