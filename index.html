@@ -97,7 +97,7 @@ let font = {
 let panel = document.getElementById('panel');
 let rows = 7;
 let cols = 52;
-let delay = 500;
+let delay = 42;
 let trailLength = 0;
 
 // Create cells "canvas"
@@ -156,6 +156,7 @@ function draw() {
     }
   }
   offset = (offset + 1) % bitmap[0].length;
+  setInterval(draw, delay);
 }
 
 setInterval(draw, delay);
