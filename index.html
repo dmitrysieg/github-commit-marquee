@@ -156,10 +156,10 @@ function draw() {
     }
   }
   offset = (offset + 1) % bitmap[0].length;
-  setInterval(draw, delay);
+  setTimeout(draw, delay);
 }
 
-setInterval(draw, delay);
+setTimeout(draw, delay);
 </script>
 </body>
 </html>
