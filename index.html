@@ -45,7 +45,7 @@
 <div id="panel" class="grid"></div>
 
 <script>
-const font = {
+let font = {
   'П': [
     "11111",
     "10001",
@@ -94,28 +94,28 @@ const font = {
 };
 
 // Options
-const panel = document.getElementById('panel');
-const rows = 7;
-const cols = 52;
-const delay = 500;
-const trailLength = 2;
+let panel = document.getElementById('panel');
+let rows = 7;
+let cols = 52;
+let delay = 500;
+let trailLength = 0;
 
 // Create cells "canvas"
-const cells = [];
+let cells = [];
 for (let i = 0; i < rows * cols; i++) {
-  const cell = document.createElement('div');
+  let cell = document.createElement('div');
   cell.className = 'cell';
   panel.appendChild(cell);
   cells.push(cell);
 }
 
-const text = 'Пизда';
+let text = 'Пизда';
 
 let bitmap = [];
 for (let row = 0; row < rows; row++) {
   let line = '';
   for (const char of text) {
-    const charMap = font[char];
+    let charMap = font[char];
     if (charMap) {
       line += charMap[row] + '0';
     }
@@ -123,7 +123,7 @@ for (let row = 0; row < rows; row++) {
   bitmap.push(line);
 }
 
-const maxLineLength = Math.max(...bitmap.map(line => line.length));
+let maxLineLength = Math.max(...bitmap.map(line => line.length));
 for (let i = 0; i < rows; i++) {
   bitmap[i] = bitmap[i].padEnd(maxLineLength + cols, '0');
 }
@@ -139,7 +139,7 @@ function draw() {
     for (let col = 0; col < cols; col++) {
 
       // Reset current cell
-      const cellIndex = row * cols + col;
+      let cellIndex = row * cols + col;
       cells[cellIndex].className = 'cell';
 
       // Drawing: 0 - drawing greentext, 1..trailLength - drawing trail.
